@@ -3,7 +3,7 @@
 
 #include <ncurses.h>
 
-#define IMAX 13
+#define IMAX 33
 
 int	game(char a);
 
