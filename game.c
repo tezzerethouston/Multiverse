@@ -59,11 +59,17 @@ refresh();
 
 werase(dialog);
 wmove(dialog, 1, 2);
-f = fopen("dialogs", "r");
+f = fopen("dialog1", "r");
 for (i=0; i<I; i++)
 	while(getc(f)!='\n');
-while((c = getc(f))!='\n')
-	waddch(dialog, c);
+i = 0; j = 0;
+while((c = getc(f))!='\n') {
+	if (i>65) {
+		j++;
+		wmove(dialog, 1+j, 2);
+		i = 0; }
+	else i++;
+	waddch(dialog, c); }
 fclose(f);
 box(dialog, 0, 0);
 mvwaddch(dialog, 5, 65, 'x');
