@@ -7,7 +7,7 @@ char	map[10][70];
 int	i, j;
 FILE	*f;
 char	c, d;
-int	I;
+int	I, scene, IMAX;
 
 // INITIALIZATIONS
 c = 0; d = 0;
@@ -17,10 +17,14 @@ dialog = newwin(6, 70, 12, 1);
 // === LOADING ===
 if (a == 'l') {
 	f = fopen("save", "r");
+	scene = getc(f);
 	I = getc(f);
 	fclose(f);
+	switch (scene) {
+	case 0: IMAX = 33; break;
+	case 1: IMAX = 2; break; }
 }
-else	I = 0;
+else { scene = 0; I = 0; IMAX = 33; }
 
 f = fopen("map1", "r");
 for (i=0; i<10; i++) {
@@ -37,8 +41,16 @@ case 'x':
 	if (I < IMAX) I++;
 	break;
 
+case 'm':
+	if (scene==0 && I==IMAX) {
+		scene = 1;
+		I = 0;
+		IMAX = 2; }
+	break;
+
 case 's':
 	f = fopen("save", "w");
+	putc(scene, f);
 	putc(I, f);
 	fclose(f);
 	break;
@@ -52,16 +64,16 @@ erase();
 addch('\n');
 for (i=0; i<10; i++) {
 	addch(' ');
-	for (j=0; j<70; j++)
-		addch(map[i][j]);
+	for (j=0; j<70; j++) addch(map[i][j]);
 	addch('\n'); }
 refresh();
 
 werase(dialog);
 wmove(dialog, 1, 2);
-f = fopen("dialog1", "r");
-for (i=0; i<I; i++)
-	while(getc(f)!='\n');
+switch (scene) {
+case 0: f = fopen("dialog1", "r"); break;
+case 1: f = fopen("dialog2", "r"); break; }
+for (i=0; i<I; i++) while(getc(f)!='\n');
 i = 0; j = 0;
 while((c = getc(f))!='\n') {
 	if (i>65) {
