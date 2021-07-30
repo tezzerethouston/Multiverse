@@ -6,16 +6,46 @@ WINDOW	*dialog;
 char	map[10][70];
 int	i, j;
 FILE	*f;
+char	c, d;
+int	I;
+
+// INITIALIZATIONS
+c = 0; d = 0;
+dialog = newwin(6, 70, 12, 1);
+// ===============
 
 // === LOADING ===
+if (a == 'l') {
+	f = fopen("save", "r");
+	I = getc(f);
+	fclose(f);
+}
+else	I = 0;
+
 f = fopen("map1", "r");
 for (i=0; i<10; i++) {
 	for (j=0; j<70; j++)
 		map[i][j] = getc(f);
 	getc(f); getc(f); }
 fclose(f);
-		
 // ===============
+
+while(1) {
+
+switch(d) {
+case 'x':
+	if (I < IMAX) I++;
+	break;
+
+case 's':
+	f = fopen("save", "w");
+	putc(I, f);
+	fclose(f);
+	break;
+case 'q':
+	endwin();
+	return 0;
+}
 
 // === DISPLAY ===
 erase();
@@ -27,12 +57,20 @@ for (i=0; i<10; i++) {
 	addch('\n'); }
 refresh();
 
-dialog = newwin(6, 70, 12, 1);
+werase(dialog);
+wmove(dialog, 1, 2);
+f = fopen("dialogs", "r");
+for (i=0; i<I; i++)
+	while(getc(f)!='\n');
+while((c = getc(f))!='\n')
+	waddch(dialog, c);
+fclose(f);
 box(dialog, 0, 0);
+mvwaddch(dialog, 5, 65, 'x');
 wrefresh(dialog);
 // ===============
 
-getch();
+d = getch(); }
 
 endwin();
 return 0; }
