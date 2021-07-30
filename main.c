@@ -1,10 +1,12 @@
 #include <ncurses.h>
+#include <locale.h>
 #include "game.h"
 
 int	main(int ac, char **av) {
 
 char	c;
 
+setlocale(LC_ALL, "");
 initscr();	// starts ncurses mode
 cbreak();	// no buffering
 noecho();
