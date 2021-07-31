@@ -48,13 +48,14 @@ case 'm':
 		scene = 1; I = 0; IMAX = 4; }
 	break;
 case '\033':	// arrow key
-	if (scene==1 && I==IMAX) {
+	if (scene==1 && I>=4) {
 		getch();	// getch buffers 3 values
 		if ((c=getch())=='D')	// LEFT
 			poi = poi->prev;
 		else if (c=='C')	// RIGHT
 			poi = poi->next;
 		block = 1;
+		IMAX = 6;
 	}
 	break;
 
@@ -70,7 +71,7 @@ case 'q':
 // === DISPLAY ===
 erase();
 displaymap(map);
-if (scene>=1 && I==IMAX && block) {
+if (scene>=1 && I>=4 && block) {
 	attron(A_REVERSE);
 	mvaddch(poi->pos[0]+1, poi->pos[1]+1, 'X');
 	attroff(A_REVERSE);
