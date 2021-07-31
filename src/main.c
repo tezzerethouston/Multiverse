@@ -31,10 +31,6 @@ case 'n':
 case 'l':
 	return game('l');
 case 'q':
-	endwin();
+	endwin();	// clears ncurses mode
 	return 0;
-}
-}
-
-endwin();	// clears ncurses mode
-return 0; }
+}}}

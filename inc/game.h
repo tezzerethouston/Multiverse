@@ -3,6 +3,9 @@
 
 #include <ncurses.h>
 
+#include "tools.h"
+#include "dlcl.h"
+
 int	game(char a);
 
 #endif
