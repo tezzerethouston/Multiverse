@@ -22,7 +22,7 @@ if (a == 'l') {
 	fclose(f);
 	switch (scene) {
 	case 0: IMAX = 33; break;
-	case 1: IMAX = 2; break; }
+	case 1: IMAX = 4; break; }
 }
 else { scene = 0; I = 0; IMAX = 33; }
 
