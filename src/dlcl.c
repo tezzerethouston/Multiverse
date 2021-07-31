@@ -17,30 +17,32 @@ new->next = NULL;
 return new; }
 
 // --- DLCL_INSERT ---
-void	dlcl_insert(dlcl *list, char id, int pos[2]) {
+void	dlcl_insert(dlcl **list, char id, int pos[2]) {
 
 dlcl	*l, *ll;
 
-if (list==NULL)
-	list = dlcl_new(id, pos);
-else if (list->next==NULL) {
-	list->next = dlcl_new(id, pos);
-	list->prev = list->next;
-	if (list->id>id)
-		list = list->next;
+if (*list==NULL) {
+	*list = dlcl_new(id, pos);
+}
+else if ((*list)->next==NULL) {
+	(*list)->next = dlcl_new(id, pos);
+	(*list)->prev = (*list)->next;
+	(*list)->next->next = *list;
+	(*list)->next->prev = *list;
+	if ((*list)->id>id)
+		*list = (*list)->next;
 }
 else {
-	if (list->id>id) {
-		l = list->prev;
-		list->prev = dlcl_new(id, pos);
-		l->next = list->prev;
-		list->prev->next = list;
-		list->prev->prev = l;
-		list = list->prev;
+	if ((*list)->id>id) {
+		l = (*list)->prev;
+		(*list)->prev = dlcl_new(id, pos);
+		l->next = (*list)->prev;
+		(*list)->prev->next = *list;
+		(*list)->prev->prev = l;
+		*list = (*list)->prev;
 		return;
 	}
-	for (l=list->next; l!=list; l=l->next) {
-		puts("coucou");
+	for (l=(*list)->next; l!=*list; l=l->next) {
 		if (l->id>id) {
 			ll = l->next;
 			l->next = dlcl_new(id, pos);
@@ -50,11 +52,11 @@ else {
 			return;
 		}
 	}
-	l = list->prev;
-	list->prev = dlcl_new(id, pos);
-	l->next = list->prev;
-	list->prev->next = list;
-	list->prev->prev = l;
+	l = (*list)->prev;
+	(*list)->prev = dlcl_new(id, pos);
+	l->next = (*list)->prev;
+	(*list)->prev->next = *list;
+	(*list)->prev->prev = l;
 }
 
 return; }

@@ -11,6 +11,7 @@ int	scene, I, IMAX;
 WINDOW	*dialog;
 // utilitary
 char	c;
+int	block;
 // ===============
 
 // INITIALIZATIONS
@@ -20,6 +21,7 @@ poi = NULL;
 dialog = newwin(6, 70, 12, 1);
 // utilitary
 c = 0;
+block = 0;
 // ===============
 
 // === LOADING ===
@@ -31,7 +33,7 @@ if (a == 'l') {
 }
 else { scene = 0; I = 0; IMAX = 33; }
 
-loadmap(map, poi);
+loadmap(map, &poi);
 // ===============
 
 while(1) {
@@ -44,6 +46,16 @@ case 'x':
 case 'm':
 	if (scene==0 && I==IMAX) {
 		scene = 1; I = 0; IMAX = 4; }
+	break;
+case '\033':	// arrow key
+	if (scene==1 && I==IMAX) {
+		getch();	// getch buffers 3 values
+		if ((c=getch())=='D')	// LEFT
+			poi = poi->prev;
+		else if (c=='C')	// RIGHT
+			poi = poi->next;
+		block = 1;
+	}
 	break;
 
 case 's':
@@ -58,6 +70,11 @@ case 'q':
 // === DISPLAY ===
 erase();
 displaymap(map);
+if (scene>=1 && I==IMAX && block) {
+	attron(A_REVERSE);
+	mvaddch(poi->pos[0]+1, poi->pos[1]+1, 'X');
+	attroff(A_REVERSE);
+}
 refresh();
 
 displaydialog(dialog, scene, I);

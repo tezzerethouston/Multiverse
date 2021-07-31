@@ -57,7 +57,7 @@ fclose(f);
 return 0; }
 
 // --- LOADMAP ---
-int	loadmap(char map[][70], dlcl *poi) {
+int	loadmap(char map[][70], dlcl **poi) {
 
 FILE	*f;
 int	i, j;
@@ -67,7 +67,6 @@ f = fopen("map1", "r");
 for (i=0; i<10; i++) {
 	for (j=0; j<70; j++) {
 		map[i][j] = getc(f);
-
 
 		// POI
 		if (map[i][j]>=49 && map[i][j]<=57) {
