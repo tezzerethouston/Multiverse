@@ -30,7 +30,11 @@ if (a == 'l') {
 	loadsave(&scene, &I);
 	switch (scene) {
 	case 0: IMAX = 33; break;
-	case 1: IMAX = 4; break; }
+	case 1: IMAX = 4; break;
+	case 49: IMAX = 14; break;
+	case 50: IMAX = 0; break;
+	case 51: IMAX = 0; break;
+	}
 }
 else { scene = 0; I = 0; IMAX = 33; }
 
@@ -59,6 +63,7 @@ case '\033':	// arrow key
 			block = 1;
 			IMAX = 6;
 
+			// creating POI name vignet
 			if (hint!=NULL)
 				delwin(hint);
 			hint = newwin(3, poi->name.l+4, poi->pos[0], poi->pos[1]+2);
@@ -66,6 +71,20 @@ case '\033':	// arrow key
 			mvwprintw(hint, 1, 2, poi->name.str);
 		}
 	}
+	break;
+case '\n':
+	if (scene==1 && I>=6)
+		switch (poi->id) {
+		case 49:	// '1' Moss World
+			scene=49; I=0; IMAX=13;
+			break;
+		case 50:	// '2' Planet Anemita
+			scene=50; I=0; IMAX=0;
+			break;
+		case 51:	// '3' Angelis Star
+			scene=51; I=0; IMAX=0;
+			break;
+		}
 	break;
 
 case 's':

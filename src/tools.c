@@ -11,7 +11,11 @@ werase(dialog);
 wmove(dialog, 1, 2);
 switch (scene) {
 case 0: f = fopen("assets/dialog1", "r"); break;
-case 1: f = fopen("assets/dialog2", "r"); break; }
+case 1: f = fopen("assets/dialog2", "r"); break;
+case 49: f = fopen("assets/Moss World", "r"); break;
+case 50: f = fopen("assets/Planet Ametita", "r"); break;
+case 51: f = fopen("assets/Angelis Star", "r"); break;
+}
 for (i=0; i<I; i++) while(getc(f)!='\n');
 i = 0; j = 0;
 while((c = getc(f))!='\n') {
