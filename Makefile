@@ -1,4 +1,4 @@
 all:
-	gcc -o Multiverse -l ncurses -I inc src/main.c src/game.c src/tools.c src/dlcl.c
+	gcc -o bin/Multiverse -l ncurses -I inc src/main.c src/game.c src/tools.c src/dlcl.c src/str.c
 dlcl:
-	gcc -o dlcl-test -I inc src/dlcl_test.c src/dlcl.c
+	gcc -o bin/dlcl-test -I inc src/dlcl_test.c src/dlcl.c

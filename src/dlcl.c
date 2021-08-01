@@ -69,6 +69,7 @@ dlcl	*l;
 if (list==NULL)
 	return;
 else if (list->next==NULL) {
+	free(list->name.str);
 	free(list);
 	return;
 }
@@ -76,6 +77,7 @@ else {
 	list->prev->next = NULL;
 	while (list->next!=NULL) {
 		l = list->next;
+		free(list->name.str);
 		free(list);
 		list = l;
 	}

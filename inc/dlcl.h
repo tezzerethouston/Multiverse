@@ -3,11 +3,14 @@
 
 #include <stdlib.h>
 
+#include "str.h"
+
 typedef struct dlcl dlcl;
 
 struct dlcl {
 	char	id;
 	int	pos[2];
+	str	name;
 	dlcl	*prev;
 	dlcl	*next;
 };

@@ -8,7 +8,7 @@ char	map[10][70];
 dlcl	*poi;
 int	scene, I, IMAX;
 // UI
-WINDOW	*dialog;
+WINDOW	*dialog, *hint;
 // utilitary
 char	c;
 int	block;
@@ -19,6 +19,7 @@ int	block;
 poi = NULL;
 // UI
 dialog = newwin(6, 70, 12, 1);
+hint = NULL;
 // utilitary
 c = 0;
 block = 0;
@@ -54,8 +55,16 @@ case '\033':	// arrow key
 			poi = poi->prev;
 		else if (c=='C')	// RIGHT
 			poi = poi->next;
-		block = 1;
-		IMAX = 6;
+		if (c=='C'||c=='D') {
+			block = 1;
+			IMAX = 6;
+
+			if (hint!=NULL)
+				delwin(hint);
+			hint = newwin(3, poi->name.l+4, poi->pos[0], poi->pos[1]+2);
+			box(hint, 0, 0);
+			mvwprintw(hint, 1, 2, poi->name.str);
+		}
 	}
 	break;
 
@@ -64,21 +73,27 @@ case 's':
 	break;
 case 'q':
 	dlcl_clear(poi);
+	delwin(dialog);
 	endwin();
 	return 0;
 }
 
 // === DISPLAY ===
 erase();
+// map
 displaymap(map);
+// cursor
 if (scene>=1 && I>=4 && block) {
 	attron(A_REVERSE);
 	mvaddch(poi->pos[0]+1, poi->pos[1]+1, 'X');
 	attroff(A_REVERSE);
 }
 refresh();
-
+// dialog box
 displaydialog(dialog, scene, I);
+// hint box
+if (scene>=1 && I>=4 && block)
+	wrefresh(hint);
 // ===============
 
 c = getch(); }}
