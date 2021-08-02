@@ -5,7 +5,7 @@ int	game(char a) {
 // DECLARATIONS ==
 // data
 char	map[10][70];
-dlcl	*poi, *universes;
+dlcl	*poi, *universe;
 int	scene, I, IMAX;
 // UI
 WINDOW	*dialog, *hint;
@@ -16,10 +16,10 @@ int	block;
 
 // INITIALIZATIONS
 // data
-poi = NULL; universes = NULL;
-dlcl_insert(&universes, 1, (int[2]){0,0});
-dlcl_insert(&universes, 2, (int[2]){0,0});
-dlcl_insert(&universes, 3, (int[2]){0,0});
+poi = NULL; universe = NULL;
+dlcl_insert(&universe, 1, (int[2]){0,0});
+dlcl_insert(&universe, 2, (int[2]){0,0});
+dlcl_insert(&universe, 3, (int[2]){0,0});
 // UI
 dialog = newwin(6, 70, 12, 1);
 hint = NULL;
@@ -79,6 +79,22 @@ case 'm':
 	else if (scene>48 && I==IMAX) {
 		loadmap("asset/map/map1", map, &poi);
 		scene = 2; I = 0; IMAX = 8; }
+	else if (scene==2 && I==IMAX) {
+		universe = universe->next;
+		switch (universe->id) {
+		case 1:
+			dlcl_clear(&poi);
+			loadmap("asset/map/map1", map, &poi);
+			break;
+		case 2:
+			dlcl_clear(&poi);
+			loadmap("asset/map/map2", map, &poi);
+			break;
+		case 3:
+			dlcl_clear(&poi);
+			loadmap("asset/map/map3", map, &poi);
+			break;
+		}}
 	break;
 
 // arrow key - cycle through POI

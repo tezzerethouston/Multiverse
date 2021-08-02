@@ -11,6 +11,7 @@ new = (dlcl*)malloc(sizeof(dlcl));
 new->id = id;
 new->pos[0] = pos[0];
 new->pos[1] = pos[1];
+new->name.str = NULL;
 new->prev = NULL;
 new->next = NULL;
 
@@ -76,13 +77,12 @@ else if ((*list)->next==NULL) {
 }
 else {
 	(*list)->prev->next = NULL;
-	while ((*list)->next!=NULL) {
+	while (*list!=NULL) {
 		l = (*list)->next;
 		free((*list)->name.str);
 		free(*list);
 		*list = l;
 	}
-	*list = NULL;
 }
 
 return; }
