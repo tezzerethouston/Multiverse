@@ -5,7 +5,7 @@ int	game(char a) {
 // DECLARATIONS ==
 // data
 char	map[10][70];
-dlcl	*poi;
+dlcl	*poi, *universes;
 int	scene, I, IMAX;
 // UI
 WINDOW	*dialog, *hint;
@@ -16,7 +16,10 @@ int	block;
 
 // INITIALIZATIONS
 // data
-poi = NULL;
+poi = NULL; universes = NULL;
+dlcl_insert(&universes, 1, (int[2]){0,0});
+dlcl_insert(&universes, 2, (int[2]){0,0});
+dlcl_insert(&universes, 3, (int[2]){0,0});
 // UI
 dialog = newwin(6, 70, 12, 1);
 hint = NULL;
@@ -37,17 +40,21 @@ if (a == 'l') {
 		IMAX = 4;
 		loadmap("asset/map/map1", map, &poi);
 		break;
+	case 2:
+		IMAX = 8;
+		loadmap("asset/map/map1", map, &poi);
+		break;
 	case 49:
-		IMAX = 14;
+		IMAX = 13;
 		loadmap("asset/map/Moss World", map, NULL);
 		break;
 	case 50:
 		IMAX = 0;
-		loadmap("asset/map/Planet Ametita", map, &poi);
+		loadmap("asset/map/Planet Ametita", map, NULL);
 		break;
 	case 51:
 		IMAX = 0;
-		loadmap("asset/map/Angelis Star", map, &poi);
+		loadmap("asset/map/Angelis Star", map, NULL);
 		break;
 	}
 }
@@ -69,6 +76,9 @@ case 'x':
 case 'm':
 	if (scene==0 && I==IMAX) {
 		scene = 1; I = 0; IMAX = 4; }
+	else if (scene>48 && I==IMAX) {
+		loadmap("asset/map/map1", map, &poi);
+		scene = 2; I = 0; IMAX = 8; }
 	break;
 
 // arrow key - cycle through POI

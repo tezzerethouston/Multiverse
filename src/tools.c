@@ -12,6 +12,7 @@ wmove(dialog, 1, 2);
 switch (scene) {
 case 0: f = fopen("asset/dialog/dialog1", "r"); break;
 case 1: f = fopen("asset/dialog/dialog2", "r"); break;
+case 2: f = fopen("asset/dialog/dialog3", "r"); break;
 case 49: f = fopen("asset/dialog/Moss World", "r"); break;
 case 50: f = fopen("asset/dialog/Planet Ametita", "r"); break;
 case 51: f = fopen("asset/dialog/Angelis Star", "r"); break;
