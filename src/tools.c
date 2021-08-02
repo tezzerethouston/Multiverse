@@ -10,11 +10,11 @@ char	c;
 werase(dialog);
 wmove(dialog, 1, 2);
 switch (scene) {
-case 0: f = fopen("assets/dialog1", "r"); break;
-case 1: f = fopen("assets/dialog2", "r"); break;
-case 49: f = fopen("assets/Moss World", "r"); break;
-case 50: f = fopen("assets/Planet Ametita", "r"); break;
-case 51: f = fopen("assets/Angelis Star", "r"); break;
+case 0: f = fopen("asset/dialog/dialog1", "r"); break;
+case 1: f = fopen("asset/dialog/dialog2", "r"); break;
+case 49: f = fopen("asset/dialog/Moss World", "r"); break;
+case 50: f = fopen("asset/dialog/Planet Ametita", "r"); break;
+case 51: f = fopen("asset/dialog/Angelis Star", "r"); break;
 }
 for (i=0; i<I; i++) while(getc(f)!='\n');
 i = 0; j = 0;
@@ -41,8 +41,14 @@ move(0, 0);
 addch('\n');
 for (i=0; i<10; i++) {
 	addch(' ');
-	for (j=0; j<70; j++)
-		addch(map[i][j]);
+	for (j=0; j<70; j++) {
+		if (map[i][j]=='8') {
+			attron(COLOR_PAIR(1));
+			addch(map[i][j]);
+			attroff(COLOR_PAIR(1));
+		}
+		else addch(map[i][j]);
+	}
 	addch('\n');
 }
 
@@ -53,7 +59,7 @@ int	save(int scene, int I) {
 
 FILE	*f;
 
-f = fopen("save/save", "w");
+f = fopen("save", "w");
 putc(scene, f);
 putc(I, f);
 fclose(f);
@@ -61,20 +67,20 @@ fclose(f);
 return 0; }
 
 // --- LOADMAP ---
-int	loadmap(char map[][70], dlcl **poi) {
+int	loadmap(const char *mapname, char map[][70], dlcl **poi) {
 
 FILE	*f;
 int	i, j;
 dlcl	*l;
 char	c, id;
 
-f = fopen("assets/map1", "r");
+f = fopen(mapname, "r");
 for (i=0; i<10; i++) {
 	for (j=0; j<70; j++) {
 		map[i][j] = getc(f);
 
 		// POI
-		if (map[i][j]>=49 && map[i][j]<=57) {
+		if (map[i][j]>=49 && map[i][j]<=57 && map[i][j]!='8') {
 			dlcl_insert(poi, map[i][j], (int[2]){i,j});
 			map[i][j] = 'X';
 		}
@@ -100,7 +106,7 @@ int	loadsave(int *scene, int *I) {
 
 FILE	*f;
 
-f = fopen("save/save", "r");
+f = fopen("save", "r");
 *scene = getc(f);
 *I = getc(f);
 fclose(f);

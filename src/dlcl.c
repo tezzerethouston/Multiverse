@@ -62,25 +62,27 @@ else {
 return; }
 
 // --- DLCL_CLEAR ---
-void	dlcl_clear(dlcl *list) {
+void	dlcl_clear(dlcl **list) {
 
 dlcl	*l;
 
-if (list==NULL)
+if (*list==NULL)
 	return;
-else if (list->next==NULL) {
-	free(list->name.str);
-	free(list);
+else if ((*list)->next==NULL) {
+	free((*list)->name.str);
+	free(*list);
+	*list = NULL;
 	return;
 }
 else {
-	list->prev->next = NULL;
-	while (list->next!=NULL) {
-		l = list->next;
-		free(list->name.str);
-		free(list);
-		list = l;
+	(*list)->prev->next = NULL;
+	while ((*list)->next!=NULL) {
+		l = (*list)->next;
+		free((*list)->name.str);
+		free(*list);
+		*list = l;
 	}
+	*list = NULL;
 }
 
 return; }
