@@ -99,7 +99,7 @@ case 'm':
 
 // arrow key - cycle through POI
 case '\033':
-	if (scene==1 && I>=4) {
+	if ((scene==1 && I>=4) || (scene==2 && I==IMAX)) {
 		getch();	// getch buffers 3 values
 		if ((c=getch())=='D')	// LEFT
 			poi = poi->prev;
@@ -107,7 +107,7 @@ case '\033':
 			poi = poi->next;
 		if (c=='C'||c=='D') {
 			block = 1;
-			IMAX = 6;
+			if (scene==1 && I>=4) IMAX = 6;
 
 			// creating POI name vignet
 			if (hint!=NULL)
@@ -166,7 +166,7 @@ refresh();
 // dialog box
 displaydialog(dialog, scene, I);
 // hint box
-if (scene==1 && I>=4 && block)
+if ((scene==1 && I>=4 && block) || (scene==2 && I==IMAX))
 	wrefresh(hint);
 // ===============
 
